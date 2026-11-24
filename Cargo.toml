@@ -1,6 +1,6 @@
 [package]
 name = "mantice"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2024"
 description = "Mantice: a text expander for Windows, written in Rust, inspired by Beeftext"
 license = "MIT"

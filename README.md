@@ -8,6 +8,7 @@
 Type a short keyword in any application and Mantice replaces it with the text you stored for it: an email signature, a boilerplate paragraph, today's date, an emoji, even a sequence of key presses.
 
 Mantice is a clone of [Beeftext](https://github.com/xmichelo/Beeftext) (C++/Qt, MIT license). It reads and writes the same combo file format, so a Beeftext library moves over with one click and keeps working in both programs.
+It also imports the packages of the [espanso hub](https://hub.espanso.org), each one into a group of its own.
 
 The name is the Italian word for the bellows of an accordion: a short keyword opens up into a long text. Up to version 0.6.0 the program was called ExpanderCraft.
 
@@ -279,7 +280,7 @@ On Linux, where the program itself does not build, the tests can be run against 
 CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUNNER=wine cargo test --target x86_64-pc-windows-gnu
 ```
 
-More than 60 unit tests cover the translations, the list shared between computers, unreadable preferences, emoji search, the file format, variables, date formats, fragments, the cursor, matching, and the substitution engine (with a simulated keyboard and clipboard).
+About 90 unit tests cover the translations, the list shared between computers, unreadable preferences, emoji search, the file format, variables, date formats, fragments, the cursor, matching, the substitution engine (with a simulated keyboard and clipboard), and the reading of espanso packages (the reader was also checked against all the packages of the hub).
 
 Every push and pull request is also built and tested on GitHub Actions for Windows (`build` workflow), with `cargo clippy -- -D warnings`.
 

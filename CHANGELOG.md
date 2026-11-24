@@ -2,12 +2,12 @@
 
 The changes of every version of Mantice (called ExpanderCraft up to version 0.6.0). Each GitHub release carries the section of its own version.
 
-## Unreleased
+## 0.7.0 — 24 November 2026
 
-- **Import espanso packages** (*File → Import from espanso…*). Type the name of a package of the espanso hub, or paste its link, or choose a `.zip` or `.yml` file, or a folder. The dialog shows what the package contains and what it leaves out (regular expressions, forms, images, commands, choices...), and imports it into a new group named after the package, or into an existing group of your choice. Triggers, texts, labels, whole-word matching, `propagate_case`, the cursor, the clipboard, dates and `match` variables are translated.
-- Importing a file with many combos is much faster: the keywords are looked up in a table instead of being searched one by one.
 - **ExpanderCraft is now Mantice**, the Italian word for the bellows of an accordion: a short keyword opens up into a long text. The program has a new icon (a bellows that widens, with the text cursor at its narrow end), and the executable, the installer and the packages are named `mantice`. Nothing to do when you update: at the first launch the data folder is moved from `%LOCALAPPDATA%\ExpanderCraft` to `%LOCALAPPDATA%\Mantice` (copied, if the old program is still running), the startup entry is renamed, and the installer replaces an installed ExpanderCraft, removing its executable and shortcuts. The portable edition is not touched: extract the new package over the old folder, or into a new one, and delete `expandercraft.exe`.
 - **macOS is no longer a build target.** The program is Windows-only: the macOS backend, its dependencies and the macOS build of the `build` workflow are gone.
+- **Import espanso packages** (*File → Import from espanso…*). Type the name of a package of the espanso hub, or paste its link, or choose a `.zip` or `.yml` file, or a folder. The dialog shows what the package contains and what it leaves out (regular expressions, forms, images, commands, choices...), and imports it into a new group named after the package, or into an existing group of your choice. Triggers, texts, labels, whole-word matching, `propagate_case`, the cursor, the clipboard, dates and `match` variables are translated.
+- Importing a file with many combos is much faster: the keywords are looked up in a table instead of being searched one by one.
 
 ## 0.6.0 — 20 November 2026
 
