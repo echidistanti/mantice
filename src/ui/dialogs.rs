@@ -17,6 +17,7 @@ pub enum Dialog {
     Group(GroupEditor),
     Confirm(Confirm),
     Import(ImportDialog),
+    Espanso(super::espanso_dialog::EspansoDialog),
     RestoreBackup(RestoreBackupDialog),
     AppList(AppListEditor),
     /// The path of the Beeftext list, and its number of combos and groups, or why it cannot be read.
@@ -173,7 +174,7 @@ impl AppListEditor {
 }
 
 /// The OK and Cancel buttons at the bottom of a dialog. Returns (OK clicked, Cancel clicked).
-fn buttons_row(ui: &mut egui::Ui, ok_label: &str, ok_enabled: bool) -> (bool, bool) {
+pub(super) fn buttons_row(ui: &mut egui::Ui, ok_label: &str, ok_enabled: bool) -> (bool, bool) {
     ui.add_space(8.0);
     right_aligned(ui, |ui| {
         let accent = style::accent(ui);
@@ -197,7 +198,7 @@ pub(super) fn modal(id: &str) -> egui::Modal {
 
 /// Show a modal whose body returns (OK, Cancel), usually from [`buttons_row`]. Some(true) for OK, Some(false) when
 /// cancelled or closed (Escape, click outside), None while it stays open.
-fn ok_cancel(ctx: &egui::Context, id: &str, body: impl FnOnce(&mut egui::Ui) -> (bool, bool)) -> Option<bool> {
+pub(super) fn ok_cancel(ctx: &egui::Context, id: &str, body: impl FnOnce(&mut egui::Ui) -> (bool, bool)) -> Option<bool> {
     let mut answer = (false, false);
     let r = modal(id).show(ctx, |ui| answer = body(ui));
     let (ok, cancel) = answer;
@@ -248,6 +249,7 @@ impl ExpanderApp {
             Dialog::Group(ed) => self.group_editor_ui(ctx, ed),
             Dialog::Confirm(c) => self.confirm_ui(ctx, c),
             Dialog::Import(d) => self.import_ui(ctx, d),
+            Dialog::Espanso(d) => self.espanso_ui(ctx, d),
             Dialog::RestoreBackup(d) => self.restore_backup_ui(ctx, d),
             Dialog::AppList(d) => self.app_list_ui(ctx, d),
             Dialog::BeeftextMigration(p, summary) => self.migration_ui(ctx, p.clone(), summary),

@@ -28,6 +28,7 @@ today           →  2026-11-20            (#{dateTime:yyyy-MM-dd})
 - [Variables](#variables)
 - [Emoji](#emoji)
 - [Your data and settings](#your-data-and-settings)
+- [Importing espanso packages](#importing-espanso-packages)
 - [Compatibility with Beeftext](#compatibility-with-beeftext)
 - [Platform support](#platform-support)
 - [Troubleshooting](#troubleshooting)
@@ -59,6 +60,7 @@ today           →  2026-11-20            (#{dateTime:yyyy-MM-dd})
 
 - **Groups** that can be enabled, disabled and reordered.
 - **Import and export** as JSON (the Beeftext format) and CSV (the TextExpander format), with conflict handling: skip, overwrite, or overwrite only the older combos.
+- **[espanso packages](#importing-espanso-packages)** from the espanso hub, by name or link, or from a file or a folder, each one into a group of its own.
 - **Automatic backups** at every save (the last 50 are kept), restore from any backup, and manual backup and restore.
 - **A combo list in a folder of your choice**, for instance a OneDrive or Dropbox folder, to share your combos between computers. Changes made on another computer are picked up within a few seconds, and the file is never overwritten with an older list or with a list that could not be read.
 - **Portable edition**: with a `Portable.bin` file next to the executable, all the data goes into a `Data` sub-folder.
@@ -163,6 +165,36 @@ The data folder contains:
 
 To share combos between computers, point the combo list folder of each one to the same OneDrive or Dropbox folder.
 
+## Importing espanso packages
+
+*File → Import from espanso…* reads a package of [espanso](https://espanso.org), the text expander, and turns it into combos. The dialog takes:
+
+- **the name of a package of the [espanso hub](https://hub.espanso.org)** (`basic-emojis`), or the command the hub shows (`espanso install basic-emojis`);
+- **a link**: the page of a package (`https://hub.espanso.org/basic-emojis`), or a `.zip` or `.yml` file (a link to a file on GitHub is read from its raw version);
+- **a file or a folder of this computer**, with the *File…* and *Folder…* buttons: a `.zip` archive, a `package.yml` (the `_manifest.yml` next to it is read too), or a folder with the match files, which can also be your own espanso `match` folder.
+
+Then it shows what the package contains before anything is imported: the new combos, the ones that have the same keyword as an existing combo (skip, overwrite, or overwrite only the older ones, as in any import), what was left out and why, and the group they go to. By default the combos go into **a new group named after the package** (with the description of the package), which you can rename. A group with that name that already exists is proposed instead, so that importing a package again updates it; you can also pick any existing group.
+
+**What a match becomes**
+
+| espanso | Mantice |
+|---|---|
+| `trigger`, or each item of `triggers` | the keyword of a combo (one combo per trigger) |
+| `replace` | the snippet |
+| `label` | the name of the combo |
+| `word: true` | strict matching (the keyword has to be a whole word); otherwise the keyword can be typed anywhere |
+| `propagate_case: true` | case-insensitive matching. espanso also adapts the case of the text to the one typed; Mantice types the text as written |
+| other matches | case-sensitive matching |
+| `$\|$` | `#{cursor}` |
+| variable `echo` | its text, written into the snippet |
+| variable `clipboard` | `#{clipboard}` |
+| variable `date` | `#{dateTime:…}`, with the `strftime` format translated into a Qt one and `offset` into a shift. A `locale` is ignored: the date uses the language of the program |
+| variable `match` | `#{combo:…}`, when the match it points to is imported as well |
+
+**What is left out**, and listed with its reason in the dialog: triggers that are regular expressions, forms, images, formatted text (`markdown`, `html`), variables that run a command or a script (`shell`, `script`) or ask for a choice (`form`, `choice`, `list`, `random`), variables Mantice does not have, date formats it cannot write, matches without a trigger or without text, and triggers that end with Tab or Enter (Mantice cannot see those keys as text). A trigger that appears twice in a package is imported once. A package can have several `.yml` files: all of them are read, as espanso does.
+
+Some packages are huge (the translation and spelling ones have tens of thousands of triggers): the dialog warns you before they make the list very long. Downloads use the HTTP stack of Windows (proxy and certificates of the system), only over `https`, and the package is read in the background.
+
 ## Compatibility with Beeftext
 
 Mantice reads and writes the `comboList.json` format of the latest Beeftext (version 10). Files in the older formats (1–9) have to be exported first from an up-to-date Beeftext. On first launch, if a Beeftext library is found (`%LOCALAPPDATA%\beeftext.org\Beeftext\comboList.json`), Mantice offers to import it with all its groups. A Beeftext backup can be opened with *Tools → Restore combo list*.
@@ -257,6 +289,8 @@ Every push and pull request is also built and tested on GitHub Actions for Windo
 src/
 ├── main.rs            start-up: paths, preferences, log, single instance, threads
 ├── library.rs         Combo, Group, Library: Beeftext v10 JSON format, CSV, import with conflicts
+├── espanso.rs         reading of espanso packages: YAML match files translated into combos (pure, tested on the whole hub)
+├── espanso_source.rs  where a package comes from: folder, zip, file, hub (by name or link)
 ├── variables.rs       variable evaluation (the VariableHost trait keeps it testable)
 ├── fragments.rs       splitting into text / #{key} / #{shortcut} / #{delay}, #{cursor} computation
 ├── qtdate.rs          Qt-style date and time formats, shifts, localized names
@@ -266,7 +300,7 @@ src/
 ├── prefs.rs  shortcut.rs  process_list.rs  backup.rs  emoji.rs  sound.rs  paths.rs  logger.rs  icon.rs
 ├── platform/
 │   ├── mod.rs         Keyboard, Clipboard and InputSink traits, shared types
-│   └── windows.rs     Windows backend
+│   └── windows.rs     Windows backend (also the https download, with WinINet)
 └── ui/                egui/eframe interface: main window, dialogs, preferences, picker, emoji list, tray
 locales/               en.ftl (reference), it.ftl, fr.ftl, es.ftl
 installer/             Inno Setup script and the PowerShell scripts that install Inno Setup and build the setup program

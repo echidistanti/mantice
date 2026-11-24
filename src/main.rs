@@ -15,6 +15,8 @@ mod app_state;
 mod backup;
 mod emoji;
 mod engine;
+mod espanso;
+mod espanso_source;
 mod fragments;
 mod icon;
 mod library;

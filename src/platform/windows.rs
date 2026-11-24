@@ -31,6 +31,7 @@ use windows_sys::Win32::UI::Input::KeyboardAndMouse::*;
 use windows_sys::Win32::UI::WindowsAndMessaging::*;
 
 use super::{Clipboard, ClipboardBackup, InputEvent, Keyboard, PlatformStatus, SharedSink, WindowToken};
+use crate::i18n::tr;
 use crate::shortcut::{Key, Shortcut};
 use crate::variables::DateKind;
 
@@ -872,6 +873,75 @@ pub fn is_own_process_foreground() -> bool {
 // ---------------------------------------------------------------------------------------------------------------------
 // Misc
 // ---------------------------------------------------------------------------------------------------------------------
+
+/// Download a page or a file with the HTTP stack of Windows (WinINet: it uses the proxy and the certificates of the
+/// system, and follows the redirections). Only `https://` addresses; the answer has to be a 200 and to be smaller
+/// than `max_bytes`. It blocks: call it from a thread.
+pub fn http_get(url: &str, max_bytes: usize) -> anyhow::Result<Vec<u8>> {
+    use windows_sys::Win32::Networking::WinInet::*;
+
+    struct Handle(*mut std::ffi::c_void);
+    impl Drop for Handle {
+        fn drop(&mut self) {
+            unsafe { InternetCloseHandle(self.0) };
+        }
+    }
+    // the Windows error of the call that just failed, as a message
+    fn failed() -> anyhow::Error {
+        anyhow::anyhow!(tr!("error-download-failed", code = unsafe { GetLastError() }))
+    }
+
+    anyhow::ensure!(url.starts_with("https://"), tr("error-espanso-not-https"));
+    unsafe {
+        let agent = wide("Mantice");
+        let session = InternetOpenW(agent.as_ptr(), INTERNET_OPEN_TYPE_PRECONFIG, std::ptr::null(), std::ptr::null(), 0);
+        if session.is_null() {
+            return Err(failed());
+        }
+        let session = Handle(session);
+        let timeout: u32 = 30_000;
+        for option in [INTERNET_OPTION_CONNECT_TIMEOUT, INTERNET_OPTION_SEND_TIMEOUT, INTERNET_OPTION_RECEIVE_TIMEOUT] {
+            InternetSetOptionW(session.0, option, (&raw const timeout).cast(), size_of::<u32>() as u32);
+        }
+        let address = wide(url);
+        let flags =
+            INTERNET_FLAG_SECURE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_NO_COOKIES | INTERNET_FLAG_NO_UI;
+        let request = InternetOpenUrlW(session.0, address.as_ptr(), std::ptr::null(), 0, flags, 0);
+        if request.is_null() {
+            return Err(failed());
+        }
+        let request = Handle(request);
+
+        let mut status: u32 = 0;
+        let mut size = size_of::<u32>() as u32;
+        if HttpQueryInfoW(
+            request.0,
+            HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER,
+            (&raw mut status).cast(),
+            &mut size,
+            std::ptr::null_mut(),
+        ) == 0
+        {
+            return Err(failed());
+        }
+        if status != 200 {
+            anyhow::bail!(tr!("error-download-status", status = status));
+        }
+        let mut data = Vec::new();
+        let mut chunk = vec![0u8; 64 * 1024];
+        loop {
+            let mut read: u32 = 0;
+            if InternetReadFile(request.0, chunk.as_mut_ptr().cast(), chunk.len() as u32, &mut read) == 0 {
+                return Err(failed());
+            }
+            if read == 0 {
+                return Ok(data);
+            }
+            data.extend_from_slice(&chunk[..read as usize]);
+            anyhow::ensure!(data.len() <= max_bytes, tr("error-espanso-too-big"));
+        }
+    }
+}
 
 pub fn powershell_exe() -> &'static str {
     "powershell.exe"

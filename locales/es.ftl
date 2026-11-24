@@ -36,6 +36,7 @@ label-group = Grupo
 menu-tools = Herramientas
 menu-help = Ayuda
 menu-import = Importar combos...
+menu-import-espanso = Importar desde espanso...
 menu-export-all = Exportar todos los combos...
 menu-export-selected = Exportar los combos seleccionados...
 menu-preferences = Preferencias...
@@ -195,6 +196,57 @@ import-overwrite-older = Sobrescribir solo los combos existentes más antiguos (
 import-into-group = Importar en el grupo
 import-button = Importar ({ $count })
 import-action = Importar
+
+## Import of espanso packages
+
+espanso-title = Importar un paquete de espanso
+espanso-help = Escribe el nombre de un paquete del hub de espanso (hub.espanso.org) o pega su enlace. También puedes elegir un archivo .zip o .yml, o una carpeta, de este equipo.
+espanso-source-hint = Nombre o enlace del paquete, por ejemplo basic-emojis
+espanso-choose-file = Archivo...
+espanso-choose-folder = Carpeta...
+espanso-file-filter = Paquetes de espanso
+espanso-load = Cargar
+espanso-loading = Cargando el paquete...
+espanso-by-author = de { $author }
+espanso-new-group = Grupo nuevo
+espanso-existing-group = Grupo existente
+espanso-left-out = Omitidos: { $count }
+espanso-approximated = Combos que se comportan de forma ligeramente distinta a espanso: { $count }. Mantice siempre escribe el texto tal como está, sin seguir las mayúsculas de la palabra clave, y las fechas usan su propio idioma.
+espanso-duplicates = Disparadores repetidos, importados una sola vez: { $count }
+espanso-unreadable = Archivos que no son YAML válido, omitidos: { $files }
+espanso-large = Es un paquete muy grande: la lista de combos se hará muy larga.
+espanso-reason-regex = Activado por una expresión regular
+espanso-reason-no-trigger = Sin disparador
+espanso-reason-form = Formulario
+espanso-reason-image = Imagen
+espanso-reason-rich-text = Texto con formato (Markdown, HTML)
+espanso-reason-command = Ejecuta un comando o un script
+espanso-reason-choice = Pide elegir un valor (choice, list, random)
+espanso-reason-variable = Variable que Mantice no tiene
+espanso-reason-date-format = Formato de fecha que Mantice no sabe escribir
+espanso-reason-nested = Usa un combo que se ha omitido
+espanso-reason-no-text = Nada que escribir
+espanso-reason-control = Disparador con Tab o Intro
+msg-espanso-imported =
+    { $count ->
+        [one] Se ha importado { $count } combo en el grupo «{ $group }».
+       *[other] Se han importado { $count } combos en el grupo «{ $group }».
+    }
+error-espanso-search-page = Esta es la página de búsqueda del hub. Abre un paquete y pega su enlace, o escribe su nombre.
+error-espanso-unknown-source = «{ $input }» no es el nombre de un paquete, ni un enlace, ni un archivo o carpeta de este equipo.
+error-espanso-unsupported-link = Este enlace no es un paquete del hub ni un archivo .zip o .yml.
+error-espanso-not-https = Solo se pueden descargar enlaces https.
+error-espanso-not-in-hub = El hub no tiene ningún paquete llamado «{ $name }».
+error-espanso-not-in-hub-similar = El hub no tiene ningún paquete llamado «{ $name }». Nombres parecidos: { $similar }.
+error-espanso-index = No se ha podido leer la lista de paquetes del hub.
+error-espanso-zip = No se ha podido leer el archivo .zip: { $detail }
+error-espanso-yaml = El paquete no es YAML válido: { $detail }
+error-espanso-no-matches = Los archivos no contienen coincidencias de espanso.
+error-espanso-no-files = No hay archivos .yml.
+error-espanso-too-big = El paquete es demasiado grande para importarlo.
+error-espanso-interrupted = La carga se ha interrumpido de forma inesperada.
+error-download-failed = La descarga ha fallado (error de Windows { $code }). Comprueba la conexión a internet.
+error-download-status = El servidor ha respondido con el error { $status }.
 
 ## Backups
 

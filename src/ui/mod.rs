@@ -2,6 +2,7 @@
 
 mod dialogs;
 mod emoji_list;
+mod espanso_dialog;
 mod main_window;
 mod picker;
 mod prefs_window;

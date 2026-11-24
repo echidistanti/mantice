@@ -5,6 +5,7 @@ use egui_extras::{Column, TableBuilder};
 use uuid::Uuid;
 
 use super::dialogs::{ComboEditor, Confirm, ConfirmAction, Dialog, GroupEditor, ImportDialog, RestoreBackupDialog};
+use super::espanso_dialog::EspansoDialog;
 use super::style::{self, muted, preview};
 use super::{ExpanderApp, PrefsWindow};
 use crate::i18n::tr;
@@ -43,6 +44,7 @@ pub enum Action {
     ToggleGroup(Uuid),
     MoveGroup(Uuid, isize),
     Import,
+    ImportEspanso,
     Export(bool),
     Backup,
     Restore,
@@ -125,6 +127,9 @@ impl ExpanderApp {
         ui.menu_button(tr("menu-file"), |ui| {
             if ui.button(tr("menu-import")).clicked() {
                 actions.push(Action::Import);
+            }
+            if ui.button(tr("menu-import-espanso")).clicked() {
+                actions.push(Action::ImportEspanso);
             }
             if ui.button(tr("menu-export-all")).clicked() {
                 actions.push(Action::Export(false));
@@ -504,6 +509,9 @@ impl ExpanderApp {
                 if ui.button(tr("menu-import")).clicked() {
                     actions.push(Action::Import);
                 }
+                if ui.button(tr("menu-import-espanso")).clicked() {
+                    actions.push(Action::ImportEspanso);
+                }
             } else {
                 ui.label(muted(ui, tr("combos-no-match")));
             }
@@ -656,6 +664,7 @@ impl ExpanderApp {
                 self.commit_library();
             }
             Action::Import => self.import_file(),
+            Action::ImportEspanso => self.dialog = Some(Dialog::Espanso(EspansoDialog::new())),
             Action::Export(selected_only) => self.export(selected_only),
             Action::Backup => self.manual_backup(),
             Action::Restore => self.restore_from_file(),
@@ -711,7 +720,7 @@ impl ExpanderApp {
 
     // ---- files ------------------------------------------------------------------------------------------------------
 
-    fn file_dialog(&self) -> rfd::FileDialog {
+    pub(super) fn file_dialog(&self) -> rfd::FileDialog {
         let d = rfd::FileDialog::new();
         match self.last_dir() {
             Some(dir) => d.set_directory(dir),

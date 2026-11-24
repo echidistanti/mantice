@@ -389,13 +389,6 @@ impl Library {
         combo.enabled && combo.group.as_ref().and_then(|g| self.group(g)).map(|g| g.enabled).unwrap_or(true)
     }
 
-    pub fn find_by_keyword(&self, keyword: &str) -> Option<&Combo> {
-        if keyword.is_empty() {
-            return None;
-        }
-        self.combos.iter().find(|c| c.keyword == keyword)
-    }
-
     /// Make sure there is at least one group and that every combo belongs to an existing group.
     /// Returns true if the library was modified.
     /// Groups still called by the default name of another language ("Default Group" created before the
@@ -625,16 +618,37 @@ pub fn read_import_file(path: &Path) -> Result<Vec<Combo>> {
 }
 
 pub fn analyze_import(library: &Library, candidates: Vec<Combo>) -> ImportAnalysis {
+    // a table of the keywords, because a package of the espanso hub can have a hundred thousand combos
+    let mut existing: std::collections::HashMap<&str, &Combo> = std::collections::HashMap::new();
+    for combo in library.combos.iter().filter(|c| !c.keyword.is_empty()) {
+        existing.entry(combo.keyword.as_str()).or_insert(combo);
+    }
     let mut a = ImportAnalysis::default();
     for mut combo in candidates {
         combo.uuid = Uuid::new_v4();
-        match library.find_by_keyword(&combo.keyword) {
+        match existing.get(combo.keyword.as_str()) {
             None => a.new_combos.push(combo),
             Some(existing) if combo.modified > existing.modified => a.conflicting_newer.push(combo),
             Some(_) => a.conflicting_older.push(combo),
         }
     }
     a
+}
+
+/// The combos of an espanso package (see [`crate::espanso`]). The matches are moved out of the package.
+pub fn combos_from_espanso(package: &mut crate::espanso::Package) -> Vec<Combo> {
+    std::mem::take(&mut package.matches)
+        .into_iter()
+        .map(|m| Combo {
+            name: m.label,
+            keyword: m.keyword,
+            snippet: m.snippet,
+            // espanso finds its triggers at the end of what is typed, unless `word` asks for a whole word
+            matching_mode: if m.whole_word { MatchingMode::Strict } else { MatchingMode::Loose },
+            case_sensitivity: if m.ignore_case { CaseSensitivity::CaseInsensitive } else { CaseSensitivity::CaseSensitive },
+            ..Default::default()
+        })
+        .collect()
 }
 
 /// Apply an import. Returns the number of imported combos.
@@ -687,6 +701,35 @@ mod tests {
              "uuid": "{2f0b6d36-2a1d-4c5f-9f3a-7a4b2c3d4e5f}"}
         ]
     }"#;
+
+    #[test]
+    fn espanso_matches_become_combos() {
+        use crate::espanso::{Match, Package};
+        let m = |keyword: &str, whole_word, ignore_case| Match {
+            label: "L".into(),
+            keyword: keyword.into(),
+            snippet: "S".into(),
+            whole_word,
+            ignore_case,
+        };
+        let mut package = Package { matches: vec![m(":a", false, false), m("b", true, true)], ..Default::default() };
+        let combos = combos_from_espanso(&mut package);
+        assert!(package.matches.is_empty());
+        let shape: Vec<_> =
+            combos.iter().map(|c| (c.keyword.as_str(), c.name.as_str(), c.snippet.as_str(), c.matching_mode, c.case_sensitivity)).collect();
+        assert_eq!(
+            shape,
+            [
+                (":a", "L", "S", MatchingMode::Loose, CaseSensitivity::CaseSensitive),
+                ("b", "L", "S", MatchingMode::Strict, CaseSensitivity::CaseInsensitive)
+            ]
+        );
+        // what is already in the library is a conflict, the rest is new
+        let mut lib = Library::default();
+        lib.combos.push(Combo::new("", ":a", "mine"));
+        let analysis = analyze_import(&lib, combos);
+        assert_eq!((analysis.new_combos.len(), analysis.conflict_count()), (1, 1));
+    }
 
     #[test]
     fn default_group_follows_the_language() {
@@ -800,8 +843,8 @@ mod tests {
         let n = apply_import(&mut lib, a, ConflictPolicy::OverwriteOlder, None);
         assert_eq!(n, 2);
         assert_eq!(lib.combos.len(), 3);
-        assert_eq!(lib.find_by_keyword("btsig").unwrap().snippet, "new");
-        assert_eq!(lib.find_by_keyword("==>").unwrap().snippet, "➜");
+        assert_eq!(lib.combos.iter().find(|c| c.keyword == "btsig").unwrap().snippet, "new");
+        assert_eq!(lib.combos.iter().find(|c| c.keyword == "==>").unwrap().snippet, "➜");
     }
 
     #[test]

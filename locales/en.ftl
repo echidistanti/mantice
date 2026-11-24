@@ -37,6 +37,7 @@ label-group = Group
 menu-tools = Tools
 menu-help = Help
 menu-import = Import combos...
+menu-import-espanso = Import from espanso...
 menu-export-all = Export all combos...
 menu-export-selected = Export selected combos...
 menu-preferences = Preferences...
@@ -196,6 +197,57 @@ import-overwrite-older = Overwrite only the older existing combos ({ $count })
 import-into-group = Import into group
 import-button = Import ({ $count })
 import-action = Import
+
+## Import of espanso packages
+
+espanso-title = Import an espanso package
+espanso-help = Type the name of a package of the espanso hub (hub.espanso.org) or paste its link. You can also choose a .zip or .yml file, or a folder, of this computer.
+espanso-source-hint = Package name or link, for example basic-emojis
+espanso-choose-file = File...
+espanso-choose-folder = Folder...
+espanso-file-filter = espanso packages
+espanso-load = Load
+espanso-loading = Loading the package...
+espanso-by-author = by { $author }
+espanso-new-group = New group
+espanso-existing-group = Existing group
+espanso-left-out = Left out: { $count }
+espanso-approximated = Combos that behave slightly differently from espanso: { $count }. Mantice always types the text as written, without following the case of the keyword, and the dates use its own language.
+espanso-duplicates = Repeated triggers, imported once: { $count }
+espanso-unreadable = Files that are not valid YAML, ignored: { $files }
+espanso-large = This is a large package: the list of combos will become very long.
+espanso-reason-regex = Triggered by a regular expression
+espanso-reason-no-trigger = No trigger
+espanso-reason-form = Form
+espanso-reason-image = Image
+espanso-reason-rich-text = Formatted text (Markdown, HTML)
+espanso-reason-command = Runs a command or a script
+espanso-reason-choice = Asks to choose a value (choice, list, random)
+espanso-reason-variable = Variable that Mantice does not have
+espanso-reason-date-format = Date format that Mantice cannot write
+espanso-reason-nested = Uses a combo that was left out
+espanso-reason-no-text = Nothing to type
+espanso-reason-control = Trigger with Tab or Enter
+msg-espanso-imported =
+    { $count ->
+        [one] { $count } combo was imported into the group "{ $group }".
+       *[other] { $count } combos were imported into the group "{ $group }".
+    }
+error-espanso-search-page = This is the search page of the hub. Open a package and paste its link, or type its name.
+error-espanso-unknown-source = "{ $input }" is not the name of a package, a link, or a file or folder of this computer.
+error-espanso-unsupported-link = This link is not a package of the hub, nor a .zip or .yml file.
+error-espanso-not-https = Only https links can be downloaded.
+error-espanso-not-in-hub = The hub has no package called "{ $name }".
+error-espanso-not-in-hub-similar = The hub has no package called "{ $name }". Similar names: { $similar }.
+error-espanso-index = The list of the packages of the hub could not be read.
+error-espanso-zip = The .zip file could not be read: { $detail }
+error-espanso-yaml = The package is not valid YAML: { $detail }
+error-espanso-no-matches = The files do not contain espanso matches.
+error-espanso-no-files = There are no .yml files.
+error-espanso-too-big = The package is too big to be imported.
+error-espanso-interrupted = The loading was interrupted unexpectedly.
+error-download-failed = The download failed (Windows error { $code }). Check the internet connection.
+error-download-status = The server answered with the error { $status }.
 
 ## Backups
 
