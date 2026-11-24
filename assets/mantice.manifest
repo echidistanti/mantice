@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-  <assemblyIdentity version="@VERSION@.0" processorArchitecture="*" name="ExpanderCraft" type="win32"/>
-  <description>ExpanderCraft text expander</description>
+  <assemblyIdentity version="@VERSION@.0" processorArchitecture="*" name="Mantice" type="win32"/>
+  <description>Mantice text expander</description>
   <dependency>
     <dependentAssembly>
       <assemblyIdentity type="win32" name="Microsoft.Windows.Common-Controls" version="6.0.0.0" processorArchitecture="*" publicKeyToken="6595b64144ccf1df" language="*"/>

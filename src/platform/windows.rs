@@ -88,7 +88,7 @@ fn normalize_modifier(vk: u16, flags: u32) -> u16 {
 pub fn start_input_monitor(sink: SharedSink) -> anyhow::Result<()> {
     let _ = SINK.set(sink);
     let (tx, rx) = crossbeam_channel::bounded::<Result<(), String>>(1);
-    std::thread::Builder::new().name("expandercraft-hook".into()).spawn(move || unsafe {
+    std::thread::Builder::new().name("mantice-hook".into()).spawn(move || unsafe {
         let module = GetModuleHandleW(std::ptr::null());
         let kb = SetWindowsHookExW(WH_KEYBOARD_LL, Some(keyboard_proc), module, 0);
         if kb.is_null() {
@@ -654,7 +654,7 @@ unsafe fn set_clipboard_bytes(format: u32, data: &[u8]) -> bool {
 impl WinClipboard {
     fn new() -> Self {
         let class = wide("STATIC");
-        let title = wide("ExpanderCraft clipboard");
+        let title = wide("Mantice clipboard");
         let hwnd = unsafe {
             CreateWindowExW(
                 0,
@@ -936,7 +936,10 @@ pub fn play_wav_file(path: &str) {
 }
 
 const RUN_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Run";
-const RUN_VALUE: &str = "ExpanderCraft";
+const RUN_VALUE: &str = "Mantice";
+/// The startup entry written by ExpanderCraft, the former name of the program: it points to an executable that
+/// the installer removes, so it is deleted whenever the entry is updated.
+const LEGACY_RUN_VALUE: &str = "ExpanderCraft";
 
 pub fn set_autostart(enabled: bool) -> anyhow::Result<()> {
     unsafe {
@@ -946,6 +949,7 @@ pub fn set_autostart(enabled: bool) -> anyhow::Result<()> {
         if r != ERROR_SUCCESS {
             anyhow::bail!(tr!("error-registry", code = r));
         }
+        RegDeleteValueW(hkey, wide(LEGACY_RUN_VALUE).as_ptr()); // absent in most cases: the result does not matter
         let value = wide(RUN_VALUE);
         let r = if enabled {
             let exe = std::env::current_exe()?;
@@ -972,8 +976,8 @@ pub fn platform_status() -> PlatformStatus {
 // Single instance
 // ---------------------------------------------------------------------------------------------------------------------
 
-const MUTEX_NAME: &str = "Local\\ExpanderCraft.SingleInstance.6f1c2a4e";
-const EVENT_NAME: &str = "Local\\ExpanderCraft.ShowMainWindow.6f1c2a4e";
+const MUTEX_NAME: &str = "Local\\Mantice.SingleInstance.6f1c2a4e";
+const EVENT_NAME: &str = "Local\\Mantice.ShowMainWindow.6f1c2a4e";
 
 /// Returns false if another instance is already running (and asks it to show its main window).
 pub fn acquire_single_instance(_socket: &std::path::Path, on_show_request: impl Fn() + Send + 'static) -> bool {
@@ -997,7 +1001,7 @@ pub fn acquire_single_instance(_socket: &std::path::Path, on_show_request: impl 
         if !ev.is_null() {
             let ev = ev as usize;
             std::thread::Builder::new()
-                .name("expandercraft-instance".into())
+                .name("mantice-instance".into())
                 .spawn(move || {
                     loop {
                         if WaitForSingleObject(ev as HANDLE, INFINITE) == WAIT_OBJECT_0 {

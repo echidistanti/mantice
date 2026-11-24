@@ -13,13 +13,13 @@ BEGIN
   BEGIN
     BLOCK "040904B0"
     BEGIN
-      VALUE "CompanyName", "ExpanderCraft"
-      VALUE "FileDescription", "ExpanderCraft text expander"
+      VALUE "CompanyName", "Mantice"
+      VALUE "FileDescription", "Mantice text expander"
       VALUE "FileVersion", "@VERSION@"
-      VALUE "InternalName", "expandercraft"
+      VALUE "InternalName", "mantice"
       VALUE "LegalCopyright", "MIT License"
-      VALUE "OriginalFilename", "expandercraft.exe"
-      VALUE "ProductName", "ExpanderCraft"
+      VALUE "OriginalFilename", "mantice.exe"
+      VALUE "ProductName", "Mantice"
       VALUE "ProductVersion", "@VERSION@"
     END
   END

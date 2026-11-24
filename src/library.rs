@@ -15,7 +15,7 @@ use uuid::Uuid;
 use crate::i18n::tr;
 use crate::prefs::Preferences;
 
-/// The version of the combo list file format written by ExpanderCraft (same as Beeftext 12+).
+/// The version of the combo list file format written by Mantice (same as Beeftext 12+).
 pub const FILE_FORMAT_VERSION: i64 = 10;
 /// The default name of the library file.
 pub const LIBRARY_FILE_NAME: &str = "comboList.json";
@@ -606,7 +606,7 @@ impl ImportAnalysis {
     }
 }
 
-/// Read a file to import: a Beeftext/ExpanderCraft JSON file, or a CSV file.
+/// Read a file to import: a Beeftext/Mantice JSON file, or a CSV file.
 pub fn read_import_file(path: &Path) -> Result<Vec<Combo>> {
     let bytes = std::fs::read(path).with_context(|| tr!("error-open-file", path = path.display().to_string()))?;
     let text = String::from_utf8_lossy(&bytes);
@@ -771,7 +771,7 @@ mod tests {
 
     #[test]
     fn refused_json_is_not_imported_as_csv() {
-        let path = std::env::temp_dir().join(format!("expandercraft-import-test-{}.json", std::process::id()));
+        let path = std::env::temp_dir().join(format!("mantice-import-test-{}.json", std::process::id()));
         let newer = r#"{
     "combos": [ {"keyword": "addr", "snippet": "Via Roma 1, Napoli", "uuid": "{8c1b4a2e-1111-4c5f-9f3a-7a4b2c3d4e5f}"} ],
     "fileFormatVersion": 11,

@@ -30,7 +30,7 @@ pub enum Language {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Preferences {
-    /// Is ExpanderCraft enabled (substitutions are performed)?
+    /// Is Mantice enabled (substitutions are performed)?
     pub enabled: bool,
     /// Set after the first launch.
     pub already_launched: bool,

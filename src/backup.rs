@@ -81,7 +81,7 @@ mod tests {
 
     #[test]
     fn archive_and_cleanup() {
-        let dir = std::env::temp_dir().join(format!("expandercraft-backup-test-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("mantice-backup-test-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
         let lib = dir.join("comboList.json");

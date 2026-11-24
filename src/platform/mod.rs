@@ -98,7 +98,7 @@ mod windows;
 pub use self::windows::*;
 
 #[cfg(not(windows))]
-compile_error!("ExpanderCraft supports Windows only.");
+compile_error!("Mantice supports Windows only.");
 
 /// Open a file or folder with the default application of the system.
 pub fn open_path(path: &std::path::Path) {

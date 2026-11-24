@@ -76,7 +76,7 @@ impl ExpanderApp {
         let mut actions: Vec<Action> = Vec::new();
         self.shortcuts(ui, &mut actions);
 
-        super::title_bar::show(ui, "ExpanderCraft", super::title_bar::Buttons::All, true);
+        super::title_bar::show(ui, "Mantice", super::title_bar::Buttons::All, true);
         egui::Panel::top("menu_bar").show(ui, |ui| {
             egui::MenuBar::new().ui(ui, |ui| self.menu_bar(ui, &mut actions));
         });

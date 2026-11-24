@@ -19,10 +19,10 @@ jobs:
       - run: cargo build --release
       - uses: actions/upload-artifact@v6
         with:
-          name: expandercraft-${{ runner.os }}
-          path: target/release/expandercraft.exe
+          name: mantice-${{ runner.os }}
+          path: target/release/mantice.exe
 
-      # The Windows installer is built on every run: it proves that installer/expandercraft.iss still compiles,
+      # The Windows installer is built on every run: it proves that installer/mantice.iss still compiles,
       # and the setup program can be downloaded from the artifacts of the run to try it.
       - name: Build the Windows installer
         shell: pwsh
@@ -31,5 +31,5 @@ jobs:
           ./installer/build.ps1
       - uses: actions/upload-artifact@v6
         with:
-          name: expandercraft-Windows-setup
+          name: mantice-Windows-setup
           path: installer/Output/*-setup.exe

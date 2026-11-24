@@ -145,8 +145,8 @@ impl Popups {
 
 pub type SharedPopups = Arc<Mutex<Popups>>;
 
-const PICKER_ID: &str = "expandercraft_picker";
-const INPUT_ID: &str = "expandercraft_input";
+const PICKER_ID: &str = "mantice_picker";
+const INPUT_ID: &str = "mantice_input";
 
 impl ExpanderApp {
     pub(super) fn picker_viewport(&mut self, ctx: &egui::Context) {
@@ -189,7 +189,7 @@ impl ExpanderApp {
     pub(super) fn input_viewport(&mut self, ctx: &egui::Context) {
         let size = super::title_bar::outer_size(egui::vec2(440.0, 170.0));
         let mut builder = ViewportBuilder::default()
-            .with_title("ExpanderCraft")
+            .with_title("Mantice")
             .with_decorations(!super::title_bar::CUSTOM)
             .with_inner_size(size)
             .with_resizable(false)
@@ -202,7 +202,7 @@ impl ExpanderApp {
         }
         let popups = self.popups.clone();
         ctx.show_viewport_deferred(ViewportId::from_hash_of(INPUT_ID), builder, move |ui, _class| {
-            super::title_bar::show(ui, "ExpanderCraft", super::title_bar::Buttons::Close, false);
+            super::title_bar::show(ui, "Mantice", super::title_bar::Buttons::Close, false);
             let mut guard = popups.lock();
             let Some(prompt) = guard.input.as_mut() else {
                 if guard.input_window_needed() {

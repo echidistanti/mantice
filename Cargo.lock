@@ -1180,7 +1180,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "expandercraft"
+name = "mantice"
 version = "0.6.0"
 dependencies = [
  "anyhow",

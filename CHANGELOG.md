@@ -1,10 +1,11 @@
 # Changelog
 
-The changes of every version of ExpanderCraft. Each GitHub release carries the section of its own version.
+The changes of every version of Mantice (called ExpanderCraft up to version 0.6.0). Each GitHub release carries the section of its own version.
 
 ## Unreleased
 
-- **macOS is no longer a build target.** ExpanderCraft is a Windows-only program: the macOS backend, its dependencies and the macOS build of the `build` workflow are gone.
+- **ExpanderCraft is now Mantice**, the Italian word for the bellows of an accordion: a short keyword opens up into a long text. The program has a new icon (a bellows that widens, with the text cursor at its narrow end), and the executable, the installer and the packages are named `mantice`. Nothing to do when you update: at the first launch the data folder is moved from `%LOCALAPPDATA%\ExpanderCraft` to `%LOCALAPPDATA%\Mantice` (copied, if the old program is still running), the startup entry is renamed, and the installer replaces an installed ExpanderCraft, removing its executable and shortcuts. The portable edition is not touched: extract the new package over the old folder, or into a new one, and delete `expandercraft.exe`.
+- **macOS is no longer a build target.** The program is Windows-only: the macOS backend, its dependencies and the macOS build of the `build` workflow are gone.
 
 ## 0.6.0 — 20 November 2026
 

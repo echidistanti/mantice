@@ -17,7 +17,7 @@ static LOG_PATH: Mutex<Option<PathBuf>> = Mutex::new(None);
 
 impl log::Log for FileLogger {
     fn enabled(&self, metadata: &log::Metadata) -> bool {
-        metadata.level() <= log::Level::Info || (cfg!(debug_assertions) && metadata.target().starts_with("expandercraft"))
+        metadata.level() <= log::Level::Info || (cfg!(debug_assertions) && metadata.target().starts_with("mantice"))
     }
 
     fn log(&self, record: &log::Record) {
@@ -26,7 +26,7 @@ impl log::Log for FileLogger {
         }
         // ignore the chatter of the GUI dependencies
         let target = record.target();
-        if record.level() > log::Level::Error && !target.starts_with("expandercraft") {
+        if record.level() > log::Level::Error && !target.starts_with("mantice") {
             return;
         }
         let line = format!("{} [{}] {}\n", chrono::Local::now().format("%Y-%m-%d %H:%M:%S%.3f"), record.level(), record.args());

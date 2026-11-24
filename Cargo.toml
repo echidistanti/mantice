@@ -1,14 +1,14 @@
 [package]
-name = "expandercraft"
+name = "mantice"
 version = "0.6.0"
 edition = "2024"
-description = "ExpanderCraft: a cross-platform text expander written in Rust, inspired by Beeftext"
+description = "Mantice: a text expander for Windows, written in Rust, inspired by Beeftext"
 license = "MIT"
 readme = "README.md"
 build = "build.rs"
 
 [[bin]]
-name = "expandercraft"
+name = "mantice"
 path = "src/main.rs"
 
 [dependencies]

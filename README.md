@@ -1,13 +1,15 @@
-# ExpanderCraft
+# Mantice
 
-[![build](https://github.com/echidistanti/expandercraft/actions/workflows/build.yml/badge.svg)](https://github.com/echidistanti/expandercraft/actions/workflows/build.yml)
-[![release](https://img.shields.io/github/v/release/echidistanti/expandercraft)](https://github.com/echidistanti/expandercraft/releases/latest)
+[![build](https://github.com/echidistanti/mantice/actions/workflows/build.yml/badge.svg)](https://github.com/echidistanti/mantice/actions/workflows/build.yml)
+[![release](https://img.shields.io/github/v/release/echidistanti/mantice)](https://github.com/echidistanti/mantice/releases/latest)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **A fast, lightweight text expander for Windows, written in Rust.**
-Type a short keyword in any application and ExpanderCraft replaces it with the text you stored for it: an email signature, a boilerplate paragraph, today's date, an emoji, even a sequence of key presses.
+Type a short keyword in any application and Mantice replaces it with the text you stored for it: an email signature, a boilerplate paragraph, today's date, an emoji, even a sequence of key presses.
 
-ExpanderCraft is a clone of [Beeftext](https://github.com/xmichelo/Beeftext) (C++/Qt, MIT license). It reads and writes the same combo file format, so a Beeftext library moves over with one click and keeps working in both programs.
+Mantice is a clone of [Beeftext](https://github.com/xmichelo/Beeftext) (C++/Qt, MIT license). It reads and writes the same combo file format, so a Beeftext library moves over with one click and keeps working in both programs.
+
+The name is the Italian word for the bellows of an accordion: a short keyword opens up into a long text. Up to version 0.6.0 the program was called ExpanderCraft.
 
 ```text
 you type        →  you get
@@ -44,7 +46,7 @@ today           →  2026-11-20            (#{dateTime:yyyy-MM-dd})
 - **Case sensitivity**, per combo or as the default.
 - **Automatic or manual triggering**. In automatic mode a combo fires the moment its keyword is typed. In manual mode you type the keyword and press a trigger shortcut (`Ctrl+Alt+Shift+B` by default). You can also trigger with a space typed after the keyword, and choose whether the space is kept.
 - **Combo picker**: a search window opened by a global shortcut (`Ctrl+Alt+Shift+Enter` by default), sorted by last use, that inserts the combo you choose into the application you came from.
-- **Enable/disable shortcut** (`Ctrl+Alt+Shift+V`, off by default) to pause ExpanderCraft without quitting it.
+- **Enable/disable shortcut** (`Ctrl+Alt+Shift+V`, off by default) to pause Mantice without quitting it.
 - **Clipboard-based insertion** that restores what was on the clipboard afterwards (on Windows every format, images and files included), keeps the pasted text out of the Windows `Win+V` and cloud clipboard histories, and can paste with `Shift+Insert` instead of `Ctrl+V` for applications that need it.
 - **Excluded applications** (no expansion at all) and **sensitive applications** (the text is typed key by key instead of pasted), both with `*` and `?` wildcards.
 
@@ -71,21 +73,21 @@ today           →  2026-11-20            (#{dateTime:yyyy-MM-dd})
 
 ### Windows 10 and 11 (64-bit)
 
-Each [release](https://github.com/echidistanti/expandercraft/releases/latest) offers two downloads:
+Each [release](https://github.com/echidistanti/mantice/releases/latest) offers two downloads:
 
-- **`ExpanderCraft-x.y.z-windows-x64-setup.exe`**, the installer. It installs for the current user by default, with no administrator rights; a dialog at the start lets you install for all users instead. It adds a Start menu entry (and, if you tick the box, a desktop shortcut) and an uninstaller in *Settings → Apps*. To update, run the installer of the new version over the old one. The installer is available in English, Italian, French and Spanish, and follows the language of Windows. If ExpanderCraft is running, setup asks you to quit it first (tray icon → Quit). Uninstalling removes the program but keeps your combos and settings in `%LOCALAPPDATA%\ExpanderCraft`.
-- **`ExpanderCraft-x.y.z-windows-x64.zip`**, the portable package: extract it anywhere and run `expandercraft.exe`. There is nothing to install.
+- **`Mantice-x.y.z-windows-x64-setup.exe`**, the installer. It installs for the current user by default, with no administrator rights; a dialog at the start lets you install for all users instead. It adds a Start menu entry (and, if you tick the box, a desktop shortcut) and an uninstaller in *Settings → Apps*. To update, run the installer of the new version over the old one. The installer is available in English, Italian, French and Spanish, and follows the language of Windows. If Mantice is running, setup asks you to quit it first (tray icon → Quit). Uninstalling removes the program but keeps your combos and settings in `%LOCALAPPDATA%\Mantice`.
+- **`Mantice-x.y.z-windows-x64.zip`**, the portable package: extract it anywhere and run `mantice.exe`. There is nothing to install.
 
-The installer accepts the standard [Inno Setup command-line switches](https://jrsoftware.org/ishelp/topic_setupcmdline.htm), for instance `ExpanderCraft-x.y.z-windows-x64-setup.exe /VERYSILENT /CURRENTUSER` for an unattended per-user installation.
+The installer accepts the standard [Inno Setup command-line switches](https://jrsoftware.org/ishelp/topic_setupcmdline.htm), for instance `Mantice-x.y.z-windows-x64-setup.exe /VERYSILENT /CURRENTUSER` for an unattended per-user installation.
 
 The installer and the executable are not code-signed, so Windows SmartScreen may warn you the first time you run them: choose *More info → Run anyway*.
 
-To make the zip version fully portable, create an empty file named `Portable.bin` next to `expandercraft.exe`. All the settings, the combo list and the backups then live in a `Data` folder beside the executable, so you can carry the whole thing on a USB stick.
+To make the zip version fully portable, create an empty file named `Portable.bin` next to `mantice.exe`. All the settings, the combo list and the backups then live in a `Data` folder beside the executable, so you can carry the whole thing on a USB stick.
 
 ## Getting started
 
-1. **Launch ExpanderCraft.** The main window opens and an icon appears in the notification area. Closing the window hides it to the tray; *File → Quit* (or the tray menu) really exits.
-2. **Import from Beeftext, if you have it.** On first launch, if a Beeftext library is found on the computer, ExpanderCraft offers to import it with all its groups.
+1. **Launch Mantice.** The main window opens and an icon appears in the notification area. Closing the window hides it to the tray; *File → Quit* (or the tray menu) really exits.
+2. **Import from Beeftext, if you have it.** On first launch, if a Beeftext library is found on the computer, Mantice offers to import it with all its groups.
 3. **Create a combo.** Choose *Combo → New combo* (or press *Create your first combo* when the list is empty), type a keyword and the snippet, and save.
 4. **Try it.** Type the keyword in any application. By default the combo fires as soon as the keyword is complete and the keyword is replaced by the snippet.
 5. **Tune it** in *File → Preferences*: Behavior (triggering, picker and toggle shortcuts, sound, launch at login), Appearance (language and theme), Combos (default matching, warnings, combo list folder), Emojis, and Advanced (text insertion, backups, PowerShell executable, diagnostics).
@@ -96,7 +98,7 @@ To make the zip version fully portable, create an empty file named `Portable.bin
 |---|---|
 | Open the combo picker | `Ctrl+Alt+Shift+Enter` |
 | Trigger a combo manually (manual mode) | `Ctrl+Alt+Shift+B` |
-| Enable or disable ExpanderCraft (off by default) | `Ctrl+Alt+Shift+V` |
+| Enable or disable Mantice (off by default) | `Ctrl+Alt+Shift+V` |
 
 All three can be changed in the preferences. A configured shortcut is intercepted: it never reaches the active application.
 
@@ -141,8 +143,10 @@ Turn on *Use emoji shortcodes* in *Preferences › Emojis* and type a shortcode 
 
 | | Windows |
 |---|---|
-| Data folder | `%LOCALAPPDATA%\ExpanderCraft` |
+| Data folder | `%LOCALAPPDATA%\Mantice` |
 | Portable edition | `Data` next to the executable (when `Portable.bin` is present) |
+
+If you used ExpanderCraft, the previous name of the program, the first launch of Mantice moves `%LOCALAPPDATA%\ExpanderCraft` to the new folder (it copies it when the old program is still running, and leaves the original in place).
 
 The data folder contains:
 
@@ -155,13 +159,13 @@ The data folder contains:
 | `Backup/` | Automatic backups of the combo list (the 50 most recent). |
 | `log.txt` | The log file, when enabled in *Preferences › Advanced*. |
 
-*Tools → Open data folder* opens it for you. If the combo list cannot be read at startup, ExpanderCraft does not replace it with an empty one and does not overwrite it until you restore a backup.
+*Tools → Open data folder* opens it for you. If the combo list cannot be read at startup, Mantice does not replace it with an empty one and does not overwrite it until you restore a backup.
 
 To share combos between computers, point the combo list folder of each one to the same OneDrive or Dropbox folder.
 
 ## Compatibility with Beeftext
 
-ExpanderCraft reads and writes the `comboList.json` format of the latest Beeftext (version 10). Files in the older formats (1–9) have to be exported first from an up-to-date Beeftext. On first launch, if a Beeftext library is found (`%LOCALAPPDATA%\beeftext.org\Beeftext\comboList.json`), ExpanderCraft offers to import it with all its groups. A Beeftext backup can be opened with *Tools → Restore combo list*.
+Mantice reads and writes the `comboList.json` format of the latest Beeftext (version 10). Files in the older formats (1–9) have to be exported first from an up-to-date Beeftext. On first launch, if a Beeftext library is found (`%LOCALAPPDATA%\beeftext.org\Beeftext\comboList.json`), Mantice offers to import it with all its groups. A Beeftext backup can be opened with *Tools → Restore combo list*.
 
 **Differences from Beeftext**
 
@@ -188,17 +192,17 @@ ExpanderCraft reads and writes the `comboList.json` format of the latest Beeftex
 | Launch at login | `HKCU\…\Run` |
 | Verification | build, clippy, unit tests, and end-to-end tests under Wine (Notepad) |
 
-ExpanderCraft runs on Windows only; macOS and Linux are not supported. All the code that depends on the operating system lives in `src/platform/`.
+Mantice runs on Windows only; macOS and Linux are not supported. All the code that depends on the operating system lives in `src/platform/`.
 
 **Known limits**
 
-- Like every expander based on `SendInput`, ExpanderCraft cannot type into windows running as administrator unless it is elevated too (UIPI).
+- Like every expander based on `SendInput`, Mantice cannot type into windows running as administrator unless it is elevated too (UIPI).
 
 ## Troubleshooting
 
-- **Nothing expands in one particular program.** Check that the program is not in the excluded applications list. If it runs as administrator, ExpanderCraft has to run as administrator too (see the known limits above).
+- **Nothing expands in one particular program.** Check that the program is not in the excluded applications list. If it runs as administrator, Mantice has to run as administrator too (see the known limits above).
 - **Characters come out wrong, or too early.** If the application is slow to react, increase the delay between keystrokes in *Preferences › Advanced*, or add the application to the sensitive applications list so its text is typed key by key. Some programs need `Shift+Insert` instead of `Ctrl+V`: there is a switch for that in the same page.
-- **The combo list cannot be loaded.** ExpanderCraft tells you, saves a copy of the file next to the original and leaves the original untouched. Restore a backup from *Tools → Restore an automatic backup*.
+- **The combo list cannot be loaded.** Mantice tells you, saves a copy of the file next to the original and leaves the original untouched. Restore a backup from *Tools → Restore an automatic backup*.
 - **Something else.** Turn on *Write a log file* in *Preferences › Advanced*, reproduce the problem, and open the log with *Tools → Open log file*. The file is `log.txt` in the data folder.
 
 ## Building from source
@@ -209,7 +213,7 @@ You need stable Rust 1.88 or later (edition 2024): <https://rustup.rs>.
 
 ```powershell
 cargo build --release
-# executable: target\release\expandercraft.exe
+# executable: target\release\mantice.exe
 ```
 
 You can also cross-compile from Linux:
@@ -222,14 +226,14 @@ cargo build --release --target x86_64-pc-windows-gnu
 
 ### Windows installer
 
-The installer is built with [Inno Setup](https://jrsoftware.org/isinfo.php) 6.3 or later, from `installer/expandercraft.iss`. After `cargo build --release`:
+The installer is built with [Inno Setup](https://jrsoftware.org/isinfo.php) 6.3 or later, from `installer/mantice.iss`. After `cargo build --release`:
 
 ```powershell
 .\installer\install-inno-setup.ps1   # once: installs a pinned Inno Setup 6 (needs administrator rights)
-.\installer\build.ps1                # writes installer\Output\ExpanderCraft-<version>-windows-x64-setup.exe
+.\installer\build.ps1                # writes installer\Output\Mantice-<version>-windows-x64-setup.exe
 ```
 
-`build.ps1` takes the version from `Cargo.toml` and reuses the icon that `build.rs` draws for the executable. The `build` workflow does the same on every push: the setup program is in the artifacts of the run (`expandercraft-Windows-setup`), ready to try.
+`build.ps1` takes the version from `Cargo.toml` and reuses the icon that `build.rs` draws for the executable. The `build` workflow does the same on every push: the setup program is in the artifacts of the run (`mantice-Windows-setup`), ready to try.
 
 ### Tests
 
@@ -276,7 +280,7 @@ To add a platform (Linux is next), write a module in `platform/` that exposes th
 
 ## Translations
 
-The interface text lives in `locales/*.ftl`, in the [Fluent](https://projectfluent.org) format, and is embedded in the executable. English (`en.ftl`) is the reference: a message missing from another language is shown in English. By default ExpanderCraft uses the language of the operating system when it is one of the translated ones, and English otherwise. You can pick a specific language in the preferences under Appearance. The group created at first launch, while it still has its default name, takes its name in the chosen language.
+The interface text lives in `locales/*.ftl`, in the [Fluent](https://projectfluent.org) format, and is embedded in the executable. English (`en.ftl`) is the reference: a message missing from another language is shown in English. By default Mantice uses the language of the operating system when it is one of the translated ones, and English otherwise. You can pick a specific language in the preferences under Appearance. The group created at first launch, while it still has its default name, takes its name in the chosen language.
 
 In the code, a plain message is written `tr("menu-quit")` and one with parameters `tr!("msg-combos-imported", count = n)`. Plurals follow the CLDR rules of each language (in French 0 and 1 are singular):
 
@@ -303,12 +307,12 @@ The key names in the shortcuts shown in the preferences are translated (Maiusc, 
 2. Commit and push to `main`.
 3. On GitHub, open *Releases → Draft a new release*, type the tag `v0.3.0` (it is created on `main`) and publish.
 
-The `release` workflow checks that the tag matches the version in `Cargo.toml`, runs the tests, builds, and attaches `ExpanderCraft-0.3.0-windows-x64-setup.exe` (the installer) and `ExpanderCraft-0.3.0-windows-x64.zip` (the portable package) to the release. If the release description is empty, it fills it with the notes of that version from `CHANGELOG.md`. To rebuild the packages of a release that is already published, use *Actions → release → Run workflow* and give the tag.
+The `release` workflow checks that the tag matches the version in `Cargo.toml`, runs the tests, builds, and attaches `Mantice-0.3.0-windows-x64-setup.exe` (the installer) and `Mantice-0.3.0-windows-x64.zip` (the portable package) to the release. If the release description is empty, it fills it with the notes of that version from `CHANGELOG.md`. To rebuild the packages of a release that is already published, use *Actions → release → Run workflow* and give the tag.
 
 If you attach a package built elsewhere before publishing the release, the workflow builds nothing and leaves the release as it is: in that case the description has to be written by hand. To keep the `build` workflow from starting on a push, put `[skip ci]` in the commit message.
 
 ## License and credits
 
-[MIT](LICENSE). ExpanderCraft is inspired by [Beeftext](https://github.com/xmichelo/Beeftext) by Xavier Michelon (MIT) and follows its file format. The emoji shortcodes come from [gemoji](https://github.com/github/gemoji) (MIT) through the [`emojis`](https://crates.io/crates/emojis) crate. The interface is built with [egui](https://github.com/emilk/egui).
+[MIT](LICENSE). Mantice is inspired by [Beeftext](https://github.com/xmichelo/Beeftext) by Xavier Michelon (MIT) and follows its file format. The emoji shortcodes come from [gemoji](https://github.com/github/gemoji) (MIT) through the [`emojis`](https://crates.io/crates/emojis) crate. The interface is built with [egui](https://github.com/emilk/egui).
 
 The full list of changes of every version is in [CHANGELOG.md](CHANGELOG.md).

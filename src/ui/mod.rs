@@ -425,8 +425,8 @@ fn window_icon() -> Arc<egui::IconData> {
 /// Start the user interface. Blocks until the application quits.
 pub fn run(shared: Arc<AppShared>, ui_rx: Receiver<UiMsg>, start_hidden: bool) -> eframe::Result<()> {
     let mut viewport = egui::ViewportBuilder::default()
-        .with_title("ExpanderCraft")
-        .with_app_id("expandercraft")
+        .with_title("Mantice")
+        .with_app_id("mantice")
         .with_decorations(!title_bar::CUSTOM)
         .with_inner_size(title_bar::outer_size(egui::vec2(980.0, 640.0)))
         .with_min_inner_size(title_bar::outer_size(egui::vec2(680.0, 420.0)))
@@ -435,5 +435,5 @@ pub fn run(shared: Arc<AppShared>, ui_rx: Receiver<UiMsg>, start_hidden: bool) -
         viewport = viewport.with_position([-20000.0, -20000.0]);
     }
     let options = eframe::NativeOptions { viewport, centered: !start_hidden, ..Default::default() };
-    eframe::run_native("ExpanderCraft", options, Box::new(move |cc| Ok(Box::new(ExpanderApp::new(cc, shared, ui_rx, start_hidden)))))
+    eframe::run_native("Mantice", options, Box::new(move |cc| Ok(Box::new(ExpanderApp::new(cc, shared, ui_rx, start_hidden)))))
 }

@@ -255,10 +255,7 @@ impl Engine {
     }
 
     pub fn spawn(self) -> std::thread::JoinHandle<()> {
-        std::thread::Builder::new()
-            .name("expandercraft-engine".into())
-            .spawn(move || self.run())
-            .expect("could not start the engine thread")
+        std::thread::Builder::new().name("mantice-engine".into()).spawn(move || self.run()).expect("could not start the engine thread")
     }
 
     fn run(mut self) {
@@ -361,7 +358,7 @@ impl Engine {
         if toggle {
             let now_enabled = !self.shared.is_enabled();
             self.shared.set_enabled(now_enabled);
-            log::info!("ExpanderCraft {} with the shortcut.", if now_enabled { "enabled" } else { "disabled" });
+            log::info!("Mantice {} with the shortcut.", if now_enabled { "enabled" } else { "disabled" });
             return;
         }
         if !enabled {
@@ -409,7 +406,7 @@ impl Engine {
         }
         self.buffer.clear();
         if platform::is_own_process_foreground() {
-            return false; // no substitution in ExpanderCraft's own windows
+            return false; // no substitution in Mantice's own windows
         }
         let combo = candidates[random_index(candidates.len())].clone();
         if self.perform_combo(&combo, false, &prefs) {
@@ -633,7 +630,7 @@ mod tests {
     fn engine_with(snippets: &[(&str, &str)], mut prefs: Preferences) -> (Engine, Arc<Mutex<Vec<String>>>) {
         prefs.play_sound_on_combo = false;
         let (tx, rx) = crossbeam_channel::unbounded();
-        let paths = crate::paths::AppPaths { data_dir: std::env::temp_dir().join("expandercraft-engine-test"), portable: false };
+        let paths = crate::paths::AppPaths { data_dir: std::env::temp_dir().join("mantice-engine-test"), portable: false };
         let (shared, _ui_rx) = AppShared::new(paths, prefs, tx);
         {
             let mut lib = shared.library.write();
@@ -727,11 +724,8 @@ mod tests {
 
     #[test]
     fn longest_keyword_wins_with_loose_matching() {
-        let prefs = Preferences {
-            combo_triggers_on_space: true,
-            default_matching_mode: crate::library::MatchingMode::Loose,
-            ..Default::default()
-        };
+        let prefs =
+            Preferences { combo_triggers_on_space: true, default_matching_mode: crate::library::MatchingMode::Loose, ..Default::default() };
         let (mut e, log) = engine_with(&[("@@", "short"), ("@@@", "long")], prefs);
         type_str(&mut e, "@@@ ");
         assert_eq!(*log.lock(), vec!["erase(4)", "clip(long)", "paste"]);

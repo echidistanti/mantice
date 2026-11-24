@@ -709,7 +709,7 @@ fn about_ui(ctx: &egui::Context, shared: &AppShared) -> bool {
         ui.vertical_centered(|ui| {
             ui.image((tex.id(), egui::vec2(72.0, 72.0)));
             ui.add_space(4.0);
-            ui.label(RichText::new("ExpanderCraft").size(24.0).strong());
+            ui.label(RichText::new("Mantice").size(24.0).strong());
             ui.label(muted(ui, tr!("about-version", version = env!("CARGO_PKG_VERSION"))));
             ui.add_space(8.0);
             ui.label(tr("about-tagline"));

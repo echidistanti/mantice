@@ -1,14 +1,17 @@
-; Inno Setup script of the ExpanderCraft installer (Inno Setup 6.3 or later).
+; Inno Setup script of the Mantice installer (Inno Setup 6.3 or later).
 ;
 ; Build it with installer\build.ps1, which reads the version from Cargo.toml. By hand:
-;   ISCC.exe /DAppVersion=0.5.1 installer\expandercraft.iss
-; Optional defines: /DExeDir=<folder of expandercraft.exe> (default: target\release) and
+;   ISCC.exe /DAppVersion=0.5.1 installer\mantice.iss
+; Optional defines: /DExeDir=<folder of mantice.exe> (default: target\release) and
 ; /DIconFile=<.ico file> (the icon of the setup program, default: the Inno Setup one).
 ;
 ; The installer is per-user by default (no administrator rights, no UAC prompt): the program lives in
-; %LOCALAPPDATA%\Programs\ExpanderCraft. The dialog at the start lets the user install for all users instead.
-; The data of the user (%LOCALAPPDATA%\ExpanderCraft: combos, settings, backups) is never touched, not even by
-; the uninstaller.
+; %LOCALAPPDATA%\Programs\Mantice. The dialog at the start lets the user install for all users instead.
+; The data of the user (%LOCALAPPDATA%\Mantice: combos, settings, backups) is never touched, not even by
+; the uninstaller. The program itself moves there the folder of ExpanderCraft (the former name) at its first launch.
+;
+; Mantice replaces an installed ExpanderCraft: the AppId is the same, so Setup reuses its folder, and the files
+; of the old name (the executable, the shortcuts, the startup entry) are removed by [InstallDelete] and [Registry].
 
 #ifndef AppVersion
   #error AppVersion is not defined: pass /DAppVersion=x.y.z (installer\build.ps1 reads it from Cargo.toml)
@@ -17,9 +20,9 @@
   #define ExeDir "..\target\release"
 #endif
 
-#define AppName "ExpanderCraft"
-#define AppExe "expandercraft.exe"
-#define AppUrl "https://github.com/echidistanti/expandercraft"
+#define AppName "Mantice"
+#define AppExe "mantice.exe"
+#define AppUrl "https://github.com/echidistanti/mantice"
 
 [Setup]
 ; Never change the AppId: it is what makes a new version replace the previous one.
@@ -43,14 +46,15 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
 
-; ExpanderCraft keeps this mutex while it runs, in the tray too: Setup and the uninstaller ask the user to quit
-; it instead of trying to replace a program in use. Same name as MUTEX_NAME in src/platform/windows.rs.
-AppMutex=Local\ExpanderCraft.SingleInstance.6f1c2a4e
-SetupMutex=ExpanderCraftSetup
+; Mantice keeps this mutex while it runs, in the tray too: Setup and the uninstaller ask the user to quit
+; it instead of trying to replace a program in use. The first name is MUTEX_NAME in src/platform/windows.rs, the
+; second one is the mutex of ExpanderCraft, so that an old version still running is detected too.
+AppMutex=Local\Mantice.SingleInstance.6f1c2a4e,Local\ExpanderCraft.SingleInstance.6f1c2a4e
+SetupMutex=ManticeSetup
 
 UninstallDisplayIcon={app}\{#AppExe}
 OutputDir=Output
-OutputBaseFilename=ExpanderCraft-{#AppVersion}-windows-x64-setup
+OutputBaseFilename=Mantice-{#AppVersion}-windows-x64-setup
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
@@ -72,14 +76,23 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "{#ExeDir}\{#AppExe}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 
+[InstallDelete]
+; What an installed ExpanderCraft leaves behind: the executable and the shortcuts of the old name.
+Type: files; Name: "{app}\expandercraft.exe"
+Type: files; Name: "{autoprograms}\ExpanderCraft.lnk"
+Type: files; Name: "{autodesktop}\ExpanderCraft.lnk"
+
 [Icons]
 Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#AppExe}"
 Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExe}"; Tasks: desktopicon
 
 [Registry]
-; "Launch ExpanderCraft at login" (a preference of the program) writes this value: remove it on uninstall,
+; "Launch Mantice at login" (a preference of the program) writes this value: remove it on uninstall,
 ; so that Windows does not look for a program that is gone.
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "{#AppName}"; ValueType: none; Flags: dontcreatekey uninsdeletevalue
+; The value of ExpanderCraft points to the executable that [InstallDelete] removes: the program writes its own
+; again at the next launch when "Launch at login" is on.
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueName: "ExpanderCraft"; ValueType: none; Flags: dontcreatekey deletevalue
 
 [Run]
 ; runasoriginaluser: with an all-users install Setup is elevated, but the program has to run with the rights of

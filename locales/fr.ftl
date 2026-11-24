@@ -1,4 +1,4 @@
-# ExpanderCraft user interface: French.
+# Mantice user interface: French.
 # Message ids are shared by all the locales; en.ftl is the reference.
 # Plural forms follow the CLDR rules of the language ([one], [other]...).
 
@@ -51,7 +51,7 @@ menu-restore-auto = Restaurer une sauvegarde automatique...
 menu-open-data-folder = Ouvrir le dossier des données
 menu-open-log = Ouvrir le fichier journal
 menu-variables-reference = Référence des variables
-menu-about = À propos d'ExpanderCraft
+menu-about = À propos de Mantice
 
 ## Main window: combo actions
 
@@ -86,7 +86,7 @@ combos-create-first = Créer votre premier combo
 combos-no-match = Aucun combo ne correspond à la recherche.
 status-active = Actif
 status-paused = En pause
-status-toggle-hint = Cliquer pour activer ou désactiver ExpanderCraft
+status-toggle-hint = Cliquer pour activer ou désactiver Mantice
 
 ## Matching and case sensitivity
 
@@ -113,7 +113,7 @@ msg-last-group = Le dernier groupe ne peut pas être supprimé.
 filter-combo-files = Fichiers de combos
 filter-all-files = Tous les fichiers
 filter-csv-textexpander = CSV (compatible TextExpander)
-file-name-backup = Sauvegarde ExpanderCraft { $date }
+file-name-backup = Sauvegarde Mantice { $date }
 msg-import-failed = Le fichier n'a pas pu être importé.
 msg-exported = Les combos ont été exportés.
 msg-export-failed = Les combos n'ont pas pu être exportés.
@@ -208,7 +208,7 @@ confirm-remove-backups = Supprimer toutes les sauvegardes automatiques ?
 ## Application lists
 
 applist-excluded-title = Applications exclues
-applist-excluded-help = ExpanderCraft n'effectue aucune substitution dans ces applications.
+applist-excluded-help = Mantice n'effectue aucune substitution dans ces applications.
 applist-sensitive-title = Applications sensibles
 applist-sensitive-help = Ces applications ne permettent pas de coller au clavier : les snippets y sont tapés caractère par caractère.
 applist-emoji-title = Applications exclues de la substitution des emojis
@@ -219,7 +219,7 @@ applist-example = Exemple de nom de processus : { $name }
 ## Beeftext migration
 
 migration-title = Bibliothèque Beeftext trouvée
-migration-text = Une liste de combos Beeftext a été trouvée sur cet ordinateur. ExpanderCraft peut l'importer avec tous ses groupes.
+migration-text = Une liste de combos Beeftext a été trouvée sur cet ordinateur. Mantice peut l'importer avec tous ses groupes.
 
 ## About
 
@@ -254,8 +254,8 @@ prefs-tab-combos = Combos
 prefs-tab-emojis = Emojis
 prefs-tab-advanced = Avancé
 prefs-section-general = Général
-prefs-enabled = ExpanderCraft est activé
-prefs-autostart = Lancer ExpanderCraft à l'ouverture de session
+prefs-enabled = Mantice est activé
+prefs-autostart = Lancer Mantice à l'ouverture de session
 prefs-portable-unavailable = Non disponible dans l'édition portable.
 prefs-play-sound = Émettre un son au déclenchement d'un combo
 prefs-custom-sound = Son personnalisé
@@ -269,7 +269,7 @@ prefs-section-picker = Sélecteur de combos
 prefs-enable-picker = Activer le sélecteur de combos
 prefs-shortcut = Raccourci
 prefs-section-toggle = Raccourci d'activation / désactivation
-prefs-use-toggle = Utiliser un raccourci pour activer ou désactiver ExpanderCraft
+prefs-use-toggle = Utiliser un raccourci pour activer ou désactiver Mantice
 prefs-recording = Appuyez sur un raccourci... (Échap pour annuler)
 prefs-record-hint = Cliquez, puis appuyez sur le nouveau raccourci
 prefs-section-language = Langue
@@ -316,15 +316,15 @@ msg-autostart-failed = Le démarrage automatique n'a pas pu être modifié.
 
 ## Combo picker and input dialog
 
-picker-title = ExpanderCraft - Sélecteur de combos
+picker-title = Mantice - Sélecteur de combos
 picker-search = Rechercher un combo...
 picker-no-match = Aucun combo correspondant.
 picker-help = ↑↓ pour choisir · Entrée pour insérer · Échap pour fermer
 
 ## System tray
 
-tray-open = Ouvrir ExpanderCraft
-tray-tooltip-paused = ExpanderCraft (en pause)
+tray-open = Ouvrir Mantice
+tray-tooltip-paused = Mantice (en pause)
 
 ## Errors
 

@@ -314,8 +314,8 @@ pub mod tests {
         let mut h = MockHost { clipboard: "Hi!".into(), ..Default::default() };
         assert_eq!(eval(&mut h, "<#{clipboard}>").unwrap(), "<Hi!>");
         assert_eq!(eval(&mut h, "#{discordemoji}").unwrap(), ":regional_indicator_h: :regional_indicator_i: :exclamation: ");
-        unsafe { std::env::set_var("EXPANDERCRAFT_TEST_VAR", "value") };
-        assert_eq!(eval(&mut h, "#{envVar:EXPANDERCRAFT_TEST_VAR}").unwrap(), "value");
+        unsafe { std::env::set_var("MANTICE_TEST_VAR", "value") };
+        assert_eq!(eval(&mut h, "#{envVar:MANTICE_TEST_VAR}").unwrap(), "value");
     }
 
     #[test]

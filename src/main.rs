@@ -1,6 +1,6 @@
 #![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 
-//! ExpanderCraft: a text expander written in Rust, inspired by Beeftext.
+//! Mantice: a text expander written in Rust, inspired by Beeftext.
 //!
 //! Architecture:
 //! * `platform`: keyboard/mouse monitoring, keystroke synthesis, clipboard, active application (per OS).
@@ -41,6 +41,8 @@ fn main() {
     let start_hidden = args.iter().any(|a| a == "--background" || a == "--minimized");
 
     let paths = AppPaths::detect();
+    // before anything reads the data folder; the log is not open yet, so the outcome is written below
+    let legacy_migration = paths.migrate_legacy_data_dir();
     paths.ensure_exists();
     let prefs = Preferences::load(&paths.settings_file());
     logger::init(&paths.log_file(), prefs.write_debug_log);
@@ -48,8 +50,13 @@ fn main() {
     std::panic::set_hook(Box::new(|info| {
         log::error!("Panic: {info}");
     }));
+    match legacy_migration {
+        Some(Ok(old)) => log::info!("The data of ExpanderCraft was moved from '{}' to '{}'.", old.display(), paths.data_dir.display()),
+        Some(Err(e)) => log::error!("The data of ExpanderCraft could not be moved to '{}': {e}", paths.data_dir.display()),
+        None => {}
+    }
     log::info!(
-        "ExpanderCraft {} starting ({}, data folder: {}{})",
+        "Mantice {} starting ({}, data folder: {}{})",
         env!("CARGO_PKG_VERSION"),
         std::env::consts::OS,
         paths.data_dir.display(),
@@ -62,7 +69,7 @@ fn main() {
 
     let s = shared.clone();
     if !platform::acquire_single_instance(&paths.instance_socket(), move || s.ui.send(UiMsg::ShowMainWindow)) {
-        log::info!("ExpanderCraft is already running: the existing instance was asked to show its window.");
+        log::info!("Mantice is already running: the existing instance was asked to show its window.");
         return;
     }
 
@@ -76,7 +83,7 @@ fn main() {
 
     // reload the combo list when another computer sharing its folder (OneDrive, Dropbox...) changes it
     let s = shared.clone();
-    let _ = std::thread::Builder::new().name("expandercraft-library-watch".into()).spawn(move || {
+    let _ = std::thread::Builder::new().name("mantice-library-watch".into()).spawn(move || {
         loop {
             std::thread::sleep(std::time::Duration::from_secs(3));
             s.reload_library_if_changed();
@@ -95,7 +102,7 @@ fn main() {
 
     let _ = shared.engine_tx.send(EngineMsg::Quit);
     let _ = engine.join();
-    log::info!("ExpanderCraft stopped.");
+    log::info!("Mantice stopped.");
     log::logger().flush();
     std::process::exit(0);
 }

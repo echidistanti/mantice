@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Installs Inno Setup, the tool that builds the ExpanderCraft installer.
+  Installs Inno Setup, the tool that builds the Mantice installer.
 .DESCRIPTION
   Downloads a pinned version of Inno Setup from its GitHub releases, checks the SHA-256 of the file and installs
   it silently. The GitHub workflows run it before installer\build.ps1; it is also handy on a fresh machine.

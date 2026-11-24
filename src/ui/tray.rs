@@ -27,7 +27,7 @@ fn make_icon(active: bool) -> Option<Icon> {
 }
 
 fn tooltip(enabled: bool) -> String {
-    if enabled { "ExpanderCraft".to_string() } else { tr("tray-tooltip-paused").to_string() }
+    if enabled { "Mantice".to_string() } else { tr("tray-tooltip-paused").to_string() }
 }
 
 impl Tray {
@@ -59,16 +59,11 @@ impl Tray {
         let s = shared.clone();
         TrayIconEvent::set_event_handler(Some(move |event: TrayIconEvent| match event {
             TrayIconEvent::DoubleClick { button: MouseButton::Left, .. } => s.ui.send(UiMsg::ShowMainWindow),
-            TrayIconEvent::Click { button: MouseButton::Left, button_state: MouseButtonState::Up, .. } => {
-                s.ui.send(UiMsg::ShowMainWindow)
-            }
+            TrayIconEvent::Click { button: MouseButton::Left, button_state: MouseButtonState::Up, .. } => s.ui.send(UiMsg::ShowMainWindow),
             _ => {}
         }));
 
-        let mut builder = TrayIconBuilder::new()
-            .with_menu(Box::new(menu))
-            .with_tooltip(tooltip(enabled))
-            .with_menu_on_left_click(false);
+        let mut builder = TrayIconBuilder::new().with_menu(Box::new(menu)).with_tooltip(tooltip(enabled)).with_menu_on_left_click(false);
         if let Some(icon) = make_icon(enabled) {
             builder = builder.with_icon(icon);
         }

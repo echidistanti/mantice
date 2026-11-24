@@ -1,14 +1,14 @@
 <#
 .SYNOPSIS
-  Builds the Windows installer of ExpanderCraft with Inno Setup.
+  Builds the Windows installer of Mantice with Inno Setup.
 .DESCRIPTION
   Run `cargo build --release` first, then this script. The installer is written to installer\Output as
-  ExpanderCraft-<version>-windows-x64-setup.exe. Inno Setup 6.3 or later is needed: installer\install-inno-setup.ps1
+  Mantice-<version>-windows-x64-setup.exe. Inno Setup 6.3 or later is needed: installer\install-inno-setup.ps1
   installs it, or get it from https://jrsoftware.org/isdl.php.
 .PARAMETER Version
   The version of the installer. Default: the version in Cargo.toml.
 .PARAMETER ExeDir
-  The folder that holds expandercraft.exe. Default: target\release.
+  The folder that holds mantice.exe. Default: target\release.
 #>
 param(
     [string]$Version,
@@ -23,8 +23,8 @@ if (-not $Version) {
     $Version = $match.Matches[0].Groups[1].Value
 }
 if (-not $ExeDir) { $ExeDir = Join-Path $root 'target\release' }
-if (-not (Test-Path (Join-Path $ExeDir 'expandercraft.exe'))) {
-    throw "expandercraft.exe not found in ${ExeDir} - run 'cargo build --release' first"
+if (-not (Test-Path (Join-Path $ExeDir 'mantice.exe'))) {
+    throw "mantice.exe not found in ${ExeDir} - run 'cargo build --release' first"
 }
 
 # The compiler: on the PATH, or in the usual places of an Inno Setup installation.
@@ -41,12 +41,12 @@ if (-not $iscc) { throw 'ISCC.exe not found: install Inno Setup 6.3 or later (in
 
 # The icon of the program is drawn by build.rs into the cargo output folder: the setup program reuses it.
 $defines = @("/DAppVersion=$Version", "/DExeDir=$ExeDir")
-$icon = Get-ChildItem -Path (Join-Path $root 'target') -Recurse -Filter 'expandercraft.ico' -ErrorAction SilentlyContinue |
+$icon = Get-ChildItem -Path (Join-Path $root 'target') -Recurse -Filter 'mantice.ico' -ErrorAction SilentlyContinue |
     Sort-Object LastWriteTime -Descending | Select-Object -First 1
 if ($icon) { $defines += "/DIconFile=$($icon.FullName)" }
-else { Write-Warning 'expandercraft.ico not found under target: the setup program gets the default Inno Setup icon' }
+else { Write-Warning 'mantice.ico not found under target: the setup program gets the default Inno Setup icon' }
 
-& $iscc @defines (Join-Path $PSScriptRoot 'expandercraft.iss')
+& $iscc @defines (Join-Path $PSScriptRoot 'mantice.iss')
 if ($LASTEXITCODE -ne 0) { throw "ISCC failed with exit code $LASTEXITCODE" }
 
 Get-ChildItem -Path (Join-Path $PSScriptRoot 'Output') -Filter '*.exe' | ForEach-Object { Write-Host "Built $($_.FullName)" }
